@@ -18,7 +18,8 @@ async function create(client, databaseName, collectionName, document) {
   try {
     const collection = client.db(databaseName).collection(collectionName);
     const result = await collection.insertOne(document);
-    console.log(`Inserted document with ID ${result.insertedId}`);
+    // console.log(`Inserted document with ID ${result.insertedId}`);
+    return result;
   } catch (error) {
     console.error(error);
   }
@@ -29,8 +30,9 @@ async function read(client, databaseName, collectionName, query) {
   try {
     const collection = client.db(databaseName).collection(collectionName);
     const result = await collection.find(query).toArray();
-    console.log(`Found ${result.length} documents`);
-    console.log(result);
+    // console.log(`Found ${result.length} documents`);
+    // console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
   }
@@ -41,7 +43,8 @@ async function update(client, databaseName, collectionName, query, update) {
   try {
     const collection = client.db(databaseName).collection(collectionName);
     const result = await collection.updateOne(query, update);
-    console.log(`Updated ${result.modifiedCount} document`);
+    // console.log(`Updated ${result.modifiedCount} document`);
+    return result;
   } catch (error) {
     console.error(error);
   }
@@ -56,11 +59,13 @@ function readJSON(filepath){
 async function uploadJSON(uri, databaseName, collectionName, filepath){
   let documents = readJSON(filepath)
   let client;
+  let result;
   try {
     client = await connect(uri);
     for (var i = 0; i < documents.courses.length; i++){
-      await create(client, databaseName, collectionName, documents.courses[i]);
+      result = await create(client, databaseName, collectionName, documents.courses[i]);
     }
+    return result;
   } catch (error) {
     console.error('Error uploading documents:', error);
   } finally {
@@ -81,6 +86,7 @@ async function removeAllDocuments(uri, databaseName, collectionName) {
     // Delete all documents in the collection
     const result = await collection.deleteMany({});
     console.log(`${result.deletedCount} documents were removed from the collection ${collectionName}`);
+    return result;
   } catch (error) {
       console.error('Error removing documents:', error);
   } finally {
