@@ -1,10 +1,15 @@
 const {URI} = require('./_config.js');
 const util = require('./mongodbutil0.js')
 
-const DATABASE = 'todoapp'; 
-const POSTS = 'posts'; 
-const COUNTER = 'counter'; 
-
 // Call the function to remove all documents
-util.removeAllDocuments(URI, DATABASE, POSTS);
-util.removeAllDocuments(URI, DATABASE, COUNTER);
+async function removeAll(URI, DATABASE, COLLECTION) {
+    let client;
+    try {
+        util.removeAllDocuments(URI, DATABASE, COLLECTION);
+        util.removeAllDocuments(URI, DATABASE, COLLECTION);
+    } catch (error) {
+        console.error(error);
+      } 
+}
+
+module.exports.removeAll = removeAll;
