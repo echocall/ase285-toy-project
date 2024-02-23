@@ -3,24 +3,26 @@ const util = require('./mongodbutil0.js')
 
 const { argv } = require('node:process');
 
-console.log(argv);
-// print process.argv
-argv.forEach((val, index) => {
-  console.log(`${index}: ${val}`);
-});
+// pars argv into useable form, slice off first two values as unneeded.
+var args =  process.argv.slice(2);
+DATABASE = args[0];
+COLLECTION = args[1];
+FILEPATH = args[2];
 
-// Call function to upload a JSON file.
+if(args.length < 3){
+  // we don't have the appropriate inputs
+  console.log("ERROR: This file requires the user to include more information. Format is: node upload_json.js 'databaseName' 'collectionName' 'filepath'. Please retry.");
+}else{
 
-// assume argv[2] and on are Database, Collection, and filePath
-async function uploadJSON(URI, DATABASE, COLLECTION, FILE) {
-  try {
-    let res = util.readJSON(FILE);
-    console.log(res);
-    res = await util.uploadJSON(URI, DATABASE, COLLECTION, FILE);
-    console.log(res);
-  } catch (error) {
-      console.error(error);
-    } 
+  // continue checking inputs  
+  async() => {
+    try {
+      let res = util.readJSON(FILEPATH);
+      console.log(res);
+      res = await util.uploadJSON(URI, DATABASE, COLLECTION, FILEPATH);
+      console.log(res);
+    } catch (error) {
+        console.error(error);
+      } 
+  }
 }
-
-module.exports.uploadJSON = uploadJSON;
