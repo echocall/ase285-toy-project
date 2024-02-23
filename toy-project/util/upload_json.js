@@ -11,7 +11,7 @@ FILEPATH = args[2];
 
 if(args.length < 3){
   // we don't have the appropriate inputs
-  console.log("ERROR: This file requires the user to include more information. Format is: node upload_json.js 'databaseName' 'collectionName' 'filepath'. Please retry.");
+  console.log("ERROR: This action requires the user to include more information. Format is: node upload_json.js 'databaseName' 'collectionName' 'filepath'. Please retry.");
 }else{
 
   // continue checking inputs  
