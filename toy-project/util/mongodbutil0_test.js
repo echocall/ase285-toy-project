@@ -1,5 +1,5 @@
-const {URI} = require('./_config.js');
-const util = require('../util/mongodbutil0.js')
+const {URI} = require('../v01-mongodb/_config.js');
+const util = require('./mongodbutil0.js')
 
 /*
 Functions to Test:

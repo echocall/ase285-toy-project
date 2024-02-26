@@ -29,6 +29,7 @@ class TodoApp {
           highestIDNumber = res[0].highestIDNumber;
         }
       } else {
+        // if nothing exists in Counter, create new document.
         query = { name : 'Total Post', totalPost : 0, highestIDNumber : 0};
         await util.create(this.uri, this.database, this.counter, query);
       }
