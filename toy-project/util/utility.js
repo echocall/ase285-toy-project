@@ -80,12 +80,14 @@ class TodoApp {
       req.body._id = parseInt(req.body._id); // the body._id is stored in string, so change it into an int value
       console.log(req.body._id);
       await util.delete_document(this.uri, this.database, this.posts, req.body)
+      let actualTotalPosts = await util.read(this.uri, this.database, this.posts, {});
+      let totalPost = actualTotalPosts.length;
 
       const query = {name : 'Total Post'};
-      const stage = {$inc: {totalPost:-1}};
+      const stage = {$set: {totalPost: totalPost}};
       await util.update(this.uri, this.database, this.posts, query, stage);
 
-      resp.redirect('/list');
+      resp.send('Delete complete');
     }
     catch (e) {
       console.error(e);
