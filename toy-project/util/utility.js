@@ -14,21 +14,35 @@ class TodoApp {
   async runAddPost(req, resp) {
     try {
       let query = {name : 'Total Post'};
-      let res = await util.read(this.uri, this.database, this.counter, query)
+      let res = await util.read(this.uri, this.database, this.counter, query);
+      let resPosts = await util.read(this.uri, this.database, this.posts, {});
+      let highestIDNumber = 0;
       let totalPost = 0;
+
       if (res.length != 0) {
-        totalPost = res[0].totalPost;
-        console.log(res);
+        if (res[0].totalPost != resPosts.length){
+          totalPost=resPosts.length;
+          highestIDNumber = res[0].highestIDNumber;
+        }
+        else{
+          totalPost = res[0].totalPost;
+          highestIDNumber = res[0].highestIDNumber;
+        }
       } else {
-        query = { name : 'Total Post', totalPost : 0};
+        // if nothing exists in Counter, create new document.
+        query = { name : 'Total Post', totalPost : 0, highestIDNumber : 0};
         await util.create(this.uri, this.database, this.counter, query);
       }
 
-      query = { _id : totalPost + 1, title : req.body.title, date : req.body.date};
+      // creating posts document.
+      query = { _id : highestIDNumber + 1, title : req.body.title, date : req.body.date};
       res = await util.create(this.uri, this.database, this.posts, query);
       
+      // updating counter table with new totalPost and highestIDNumber values.
       query = {name : 'Total Post'};
-      const stage = {$inc: {totalPost: 1}}
+      highestIDNumber +=1;
+      totalPost +=1;
+      const stage = {$set: {totalPost: totalPost, highestIDNumber: highestIDNumber}}
       await util.update(this.uri, this.database, this.counter, query, stage);
       this.runListGet(req, resp);
     } catch (e) {
@@ -69,9 +83,9 @@ class TodoApp {
 
       const query = {name : 'Total Post'};
       const stage = {$inc: {totalPost:-1}};
-      await util.update(this.uri, this.database, this.posts, query, stage)
+      await util.update(this.uri, this.database, this.posts, query, stage);
 
-      resp.send('Delete complete')
+      resp.redirect('/list');
     }
     catch (e) {
       console.error(e);
