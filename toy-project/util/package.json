@@ -9,5 +9,8 @@
   "author": "Dr. Samuel Cho",
   "dependencies": {
     "mongodb": "^6.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
