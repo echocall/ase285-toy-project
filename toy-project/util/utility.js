@@ -1,5 +1,4 @@
 const util = require('./mongodbutil.js');
-
 class TodoApp {
   constructor(uri, database, posts, counter) {
     this.uri = uri
@@ -18,7 +17,7 @@ class TodoApp {
       let resPosts = await util.read(this.uri, this.database, this.posts, {});
       let highestIDNumber = 0;
       let totalPost = 0;
-
+      
       if (res.length != 0) {
         if (res[0].totalPost != resPosts.length){
           totalPost=resPosts.length;
@@ -50,6 +49,7 @@ class TodoApp {
       resp.status(500).send({ error: `Error from runAddPost: ${e.message}` })
     }
   }
+  
   async runListGet(req, resp) {
       try {
         let res = await util.read(this.uri, this.database, this.posts, {}) // {} query returns all documents
@@ -87,7 +87,13 @@ class TodoApp {
       const stage = {$set: {totalPost: totalPost}};
       await util.update(this.uri, this.database, this.counter, query, stage);
 
-      resp.send('Delete complete');
+      let res = await util.read(this.uri, this.database, this.posts, {}) // {} query returns all documents
+      if (res.length == 0) {
+        resp.redirect('/');
+      } else {
+        const query = { posts: res };
+        resp.render('list.ejs', query)
+      }   
     }
     catch (e) {
       console.error(e);

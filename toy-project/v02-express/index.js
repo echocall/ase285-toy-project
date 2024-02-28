@@ -17,7 +17,7 @@ app.listen(5500, function() {
 });
 
 app.get('/', function(req, resp) { 
-    resp.sendFile(__dirname +'/write.html')
+    resp.sendFile(__dirname +'/write.html');
 });
 
 app.get('/test', async function(req, resp) {

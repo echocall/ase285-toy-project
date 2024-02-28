@@ -57,11 +57,12 @@ function readJSON(filepath){
 }
 
 async function uploadJSON(uri, databaseName, collectionName, filepath){
-  let documents = readJSON(filepath)
+  let documents = readJSON(filepath);
   let client;
   let result;
   try {
     client = await connect(uri);
+    console.log(client);
     for (var i = 0; i < documents.courses.length; i++){
       result = await create(client, databaseName, collectionName, documents.courses[i]);
     }
