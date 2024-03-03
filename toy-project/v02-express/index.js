@@ -27,7 +27,6 @@ app.get('/test', async function(req, resp) {
 
 app.get('/test2/:id', async function(req, resp) {
     let id = req.params.id;
-    console.log(id);
     resp.send(`${id}`);
 }); 
 

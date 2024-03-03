@@ -1,5 +1,4 @@
 // run "npm install . "
-
 const {URI} = require('./_config.js');
 const util = require('../util/mongodbutil.js')
 
@@ -8,6 +7,7 @@ const COLLECTION = 'posts'
 
 // Install express
 const express = require('express');
+const e = require('express');
 const app = express();
 app.use(express.urlencoded({extended: true})) 
 
@@ -25,6 +25,7 @@ app.get('/', function(req, resp) {
 app.get('/test', async function(req, resp) {
     resp.sendFile(__dirname +'/json/test.json')
     console.log('/test test.');
+    console.log(resp);
     console.log(resp.statusCode === 200);
     console.log(resp.sendDate === true);
 }); 
