@@ -1,5 +1,7 @@
 const http = require('http');
-// this is not a jest test. run node index.js first.
+const {URI} = require('./_config.js');
+const util = require('../util/mongodbutil.js')
+// this is not a jest test. run nodemon index.js first.
 
 // Specify the URL of the web server
 const url = 'http://localhost:5500/test';
@@ -53,8 +55,9 @@ const req3 = http.get(url3, (res) => {
   });
 
   const url4 = 'http://localhost:5500/add'
+  const query = { title : 'Test Post', date : 'Test Date' }
   //
-  const req4 = http.get(url4, (res) => {
+  const req4 = http.get(url4, query, (res) => {
     let responseData = '';
     res.on('data', (chunk) => {
         responseData += chunk;
@@ -62,7 +65,7 @@ const req3 = http.get(url3, (res) => {
 
     res.on('end', () => {
         console.log('testing /add');
-        console.log(res.statusCode);
+        console.log(res.statusCode == 404);
     });
   });
 
