@@ -18,6 +18,7 @@
 <li class="todo-list-item">
 <form action="/edit/<%= details._id %>" method="POST">
 <input type="text" value="<%= details.title %>" name="title">
+<input type="date" value="<%= details.date %>" name ="date">
 <button type="submit">Confirm</button>
 <a href="/" class="cancel">Cancel</a>
 </form>
