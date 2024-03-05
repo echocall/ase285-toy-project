@@ -34,7 +34,7 @@ app.get('/', async function(req, resp) {
   try {
       await resp.render('write.ejs')
   } catch (e) {
-      console.error(e);
+      await resp.render('error.ejs')
   } 
 });
   
@@ -42,7 +42,7 @@ app.get('/', async function(req, resp) {
   try {
     await postapp.runAddPost(req, resp);
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   } 
 });
   
@@ -50,7 +50,7 @@ app.get('/list', async function(req, resp){
   try {
     await postapp.runListGet(req, resp);
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   }   
 });
   
@@ -58,7 +58,7 @@ app.delete('/delete', async function(req, resp){
   try {
     await postapp.runDeleteDelete(req, resp); 
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   }     
 }); 
 
@@ -66,7 +66,7 @@ app.get('/detail/:id', async function (req, resp) {
   try {
     await postapp.runDetailIdGet(req, resp); 
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   }    
 });
 
@@ -74,7 +74,7 @@ app.get('/edit/:id', async function (req, resp) {
   try {
     await postapp.runEditIdGet(req, resp); 
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   }    
 });
 
@@ -82,6 +82,6 @@ app.put('/edit', async function (req, resp) {
   try {
     await postapp.runEditPut(req, resp); 
   } catch (e) {
-    console.error(e);
+    await resp.render('error.ejs')
   }     
 }); 
